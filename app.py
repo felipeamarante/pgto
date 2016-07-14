@@ -3,6 +3,14 @@ import re
 app = Flask(__name__)
 
 
+def logger(owerName, money):
+    logOutput = owerName + ";" + money
+
+    with open("logfile.log", "a") as logfile:
+        logfile.write(logOutput + "\n")
+
+    return "Writing to Log" + logOutput
+
 
 @app.route("/")
 def usage():
@@ -15,6 +23,8 @@ def core(owerName, money):
         return render_template('errpage.html'), 500
     if not re.match("^[0-9]+$", money):
         return render_template('errpage.html'), 500
+
+    logger(owerName, money)
 
     return render_template('fade2.html', owerName=owerName.title(), money=money)
 
